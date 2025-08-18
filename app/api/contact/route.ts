@@ -35,9 +35,9 @@ export async function POST(req: Request) {
   // Email à l'administrateur du site
   try {
     await transporter.sendMail({
-      from: `"AsCode Contact" <${process.env.SMTP_USER}>`,
+      from: `"AsYouCode Contact" <${process.env.SMTP_USER}>`,
       to: process.env.SMTP_USER,
-      subject: `Nouveau message de contact AsCode`,
+      subject: `Nouveau message de contact AsYouCode`,
       text: `Vous avez reçu un nouveau message via le formulaire de contact AsCode :
 
 Nom : ${name}
@@ -48,7 +48,7 @@ ${message}
 `,
       html: `
         <div style="font-family:sans-serif;font-size:1rem;color:#222;">
-          <h2 style="color:#111;">Nouveau message de contact AsCode</h2>
+          <h2 style="color:#111;">Nouveau message de contact AsYouCode</h2>
           <p><b>Nom :</b> ${name}</p>
           <p><b>Email :</b> ${email}</p>
           <p><b>Message :</b><br/>${message.replace(/\n/g, "<br/>")}</p>
@@ -69,12 +69,12 @@ ${message}
     await transporter.sendMail({
       from: `"AsCode" <${process.env.SMTP_USER}>`,
       to: email,
-      subject: "Merci pour votre message – Bienvenue sur AsCode 🚀",
+      subject: "Merci pour votre message – Bienvenue sur AsYouCode 🚀",
       text: `Bonjour ${name},
 
 Merci de nous avoir contactés !
 
-Chez AsCode, nous croyons qu'apprendre à coder peut devenir simple et rapide, même si vous partez de zéro. Grâce aux outils d'intelligence artificielle comme GitHub Copilot, ChatGPT ou Cursor, vous pouvez créer de vrais projets en quelques mois au lieu de plusieurs années.
+Chez AsYouCode, nous croyons qu'apprendre à coder peut devenir simple et rapide, même si vous partez de zéro. Grâce aux outils d'intelligence artificielle comme GitHub Copilot, ChatGPT ou Cursor, vous pouvez créer de vrais projets en quelques mois au lieu de plusieurs années.
 
 Voici notre parcours étape par étape :
 1️⃣ Démarrage : Comprendre les bases du code sans stress.
@@ -82,23 +82,23 @@ Voici notre parcours étape par étape :
 3️⃣ IA au service de votre apprentissage : Utiliser Copilot et ChatGPT pour coder plus vite.
 4️⃣ Niveau avancé : Construire des applications réelles et lancer vos projets.
 
-Avec AsCode, vous apprenez en créant, pas en restant bloqué sur la théorie.
+Avec AsYouCode, vous apprenez en créant, pas en restant bloqué sur la théorie.
 
 Nous avons bien reçu votre message :
 "${message}"
 
 Nous revenons vers vous très vite.
 
- Répondez directement à cet e-mail pour nous dire si vous souhaitez profiter de l’accompagnement gratuit, ou si vous préférez passer dès maintenant à la formation complète pour avancer plus vite. !
+ Répondez directement à cet e-mail pour nous dire si vous souhaitez profiter de l’accompagnement gratuit, ou si vous préférez passer dès maintenant à la formation payante pour avancer plus vite. !
 
-À très bientôt sur AsCode pour commencer cette aventure !
-L'équipe AsCode
+À très bientôt pour commencer cette aventure !
+L'équipe AsYouCode
 `,
 
       html: `
       <div style="font-family:sans-serif;font-size:1rem;color:#222;max-width:600px;margin:auto;">
         <h2 style="color:#111;">Merci pour votre message, ${name} 🚀</h2>
-        <p>Chez <b>AsCode</b>, nous croyons qu'apprendre à coder peut être simple, rapide et concret, même si vous débutez.</p>
+        <p>Chez <b>AsYouCode</b>, nous croyons qu'apprendre à coder peut être simple, rapide et concret, même si vous débutez.</p>
         <p>Grâce aux outils d'IA comme <b>GitHub Copilot</b>, <b>ChatGPT</b> ou <b>Cursor</b>, vous pouvez créer de vrais projets en quelques mois et progresser plus vite que jamais.</p>
         
         <div style="background:#f7fafc;padding:16px 20px;border-radius:8px;margin:24px 0;">
@@ -119,8 +119,8 @@ L'équipe AsCode
         <p style="margin-top:24px;">
   Répondez directement à cet e-mail pour nous dire si vous souhaitez profiter de l’accompagnement gratuit, ou si vous préférez passer dès maintenant à la formation complète pour avancer plus vite.<br>
   Nous reviendrons vers vous très vite.<br>
-  À très bientôt sur <b>AsCode</b> pour commencer cette aventure !<br>
-  L’équipe AsCode
+  À très bientôt pour commencer cette aventure !<br>
+  L’équipe AsYouCode
 </p>
 
       </div>

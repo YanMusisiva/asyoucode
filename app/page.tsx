@@ -11,7 +11,7 @@ const Navbar = () => {
     <nav className="w-full bg-white/90 backdrop-blur border-b border-gray-200 fixed top-0 left-0 z-30">
       <div className="max-w-7xl mx-auto flex items-center justify-between px-6 py-2">
         <span className="text-2xl font-black text-black tracking-tight">
-          AsCode
+          AsYouCode
         </span>
         {/* Desktop menu */}
         <ul className="hidden md:flex gap-8 text-gray-700 ">
@@ -141,18 +141,18 @@ const Header = () => (
         <span className="bg-gradient-to-r from-yellow-200 via-yellow-100 to-yellow-300 px-3 py-1 rounded-lg shadow font-extrabold">
           simplement
         </span>
-        .
       </h1>
       <p className="text-2xl text-gray-700 mb-8 font-light max-w-xl mx-auto">
         Passe du scroll à la création.
         <br />
         <span className="text-lg text-gray-600">
-          Une formation où tu codes, construis et apprends en réalisant des
-          projets concrets, pour remplir ton CV et ton GitHub comme un vrai
-          développeur prêt à lancer sa carrière.
+          Une formation où vous codez, construisez et apprennez en réalisant des
+          projets concrets en ligne applications mobiles ou sites web, en
+          partant même de zéro, contactez-nous si vous êtes prêt à lancer votre
+          carrière.
           <br />
           <span className="font-semibold text-black">
-            Essayez gratuitement, sans engagement.
+            Essayez gratuitement.
           </span>
         </span>
       </p>
@@ -224,31 +224,38 @@ const ContactSection = () => {
         <h2 className="text-4xl font-black mb-4 text-black tracking-tight">
           Prêt à transformer votre avenir&nbsp;?
         </h2>
-        <p className="text-lg text-gray-700 mb-8 leading-relaxed">
+        <div className="text-lg text-gray-700 mb-8 leading-relaxed">
           <span className="block mb-2">
             <span className="inline-block bg-yellow-100 text-yellow-900 font-bold px-3 py-1 rounded-full mb-2">
               Offre exclusive
             </span>
           </span>
-          <span className="font-semibold text-black">
-            Rejoignez AsCode aujourd&apos;hui et bénéficiez d&apos;un
-            accompagnement gratuit et personnalisé pour lancer votre carrière
-            tech.
-          </span>
+
           <br />
           <span className="text-gray-600">
             <b>
               Arrêtez de perdre du temps à chercher des tutos à l&apos;aveugle.
             </b>
-            <br /> Contactez-nous dès maintenant pour découvrir comment AsCode
-            peut vous aider à atteindre vos objectifs.
+            <br /> Contactez-nous dès maintenant pour découvrir comment
+            AsYouCode peut vous aider à atteindre vos objectifs gratuitement ou
+            encore pour obtenir l&apos;offre payante.
             <br />
-            <span className="text-yellow-600 font-bold">
-              Avec notre formation payante pour 99 $, voyez vos projets prendre
-              vie en quelques semaines.
-            </span>
           </span>
-        </p>
+          <br />
+          <div className=" bg-yellow-200 border border-yellow-400 rounded-xl shadow p-6 text-center">
+            <h3 className="text-2xl font-bold text-black mb-2">
+              Offre exclusive
+            </h3>
+            <p className="text-4xl font-extrabold text-yellow-900 mb-2">99$</p>
+            <p className="text-gray-700 mb-4">
+              1 mois d&apos;apprentissage + 1 mois d&apos;exercices + 1 mois de
+              projets concrets
+            </p>
+            <span className="inline-block bg-yellow-300 text-yellow-900 font-bold px-3 py-1 rounded-full">
+              C'est garantie.
+            </span>
+          </div>
+        </div>
         {!showForm && (
           <button
             className="inline-block bg-gradient-to-r from-black via-gray-900 to-gray-700 text-white px-8 py-3 rounded-lg shadow-lg font-semibold text-lg hover:scale-105 hover:bg-black transition-all duration-200"
@@ -381,7 +388,7 @@ const ContactSection = () => {
 const Footer = () => (
   <footer className="bg-white text-gray-700 py-10 mt-0 border-t border-gray-100">
     <div className="max-w-7xl mx-auto text-center text-lg font-light px-6">
-      <p>&copy; 2025 AsCode. Tous droits réservés.</p>
+      <p>&copy; 2025 AsYouCode. Tous droits réservés.</p>
       <div className="mt-4">
         <CTAButton />
       </div>

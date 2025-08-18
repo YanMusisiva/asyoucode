@@ -13,8 +13,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "AsCode - Apprendre à coder",
-  description: "Apprenez avec AsCode",
+  title: "AsYouCode - Apprendre à coder",
+  description: "Apprenez avec AsYouCode",
 };
 
 export default function RootLayout({
