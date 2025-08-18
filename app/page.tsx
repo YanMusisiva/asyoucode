@@ -252,7 +252,7 @@ const ContactSection = () => {
               projets concrets
             </p>
             <span className="inline-block bg-yellow-300 text-yellow-900 font-bold px-3 py-1 rounded-full">
-              C'est garantie.
+              C&apos;est garantie.
             </span>
           </div>
         </div>
