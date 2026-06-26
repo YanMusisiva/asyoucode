@@ -65,28 +65,25 @@ const content = {
     },
     pricing: {
       title: "NOS PACKS DE CROISSANCE",
-      cta: "Sélectionner ce pack",
+      cta: "Payer ce que vous gagnez",
       tiers: [
         {
           name: "Starter Consulting",
           price: "390$",
           features: [
             "Audit de marketing",
-            "Plan d'action commercial",
-            "Support email",
-            "Gestion des posts sur les réseaux sociaux",
-            "Création d'une Landing Page",
+            "Communication et web",
+            "Branding",
+            "Consultance marketing",
           ],
         },
         {
           name: "Premium Growth (Ads + Web)",
           price: "1490$",
           features: [
-            "Campagnes Ads incluses",
-            "Création de Landing Page",
-            "Suivi des conversions",
-            "Support prioritaire WhatsApp",
-            "Rapport de performance hebdomadaire",
+            "Architecture de communication",
+            "Branding complet",
+            "Consultance stratégique",
           ],
         },
         {
@@ -157,7 +154,7 @@ const content = {
     },
     pricing: {
       title: "GROWTH PACKAGES",
-      cta: "Select this plan",
+      cta: "Pay as you earn",
       tiers: [
         {
           name: "Starter Consulting",
