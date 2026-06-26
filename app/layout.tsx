@@ -13,8 +13,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "AsYouCode - Apprendre à coder",
-  description: "Apprenez avec AsYouCode",
+  title: "ASIKIRE & CO - Business Consulting",
+  description: "Business Consulting, advertising",
 };
 
 export default function RootLayout({
