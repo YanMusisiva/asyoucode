@@ -495,7 +495,7 @@ export default function AsikireLandingPage() {
         <div className="w-full max-w-7xl mx-auto grid grid-cols-2 md:grid-cols-3 items-end gap-6 relative z-10 border-t border-white/5 pt-4">
           <div>
             <p className="text-[10px] font-mono tracking-widest text-neutral-500 uppercase mt-1">
-              BUSINESS {t.hero.title}
+              BUSINESS {t.hero.tag}
             </p>
           </div>
 
