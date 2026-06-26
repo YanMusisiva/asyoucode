@@ -55,7 +55,9 @@ export default function ContactPage() {
       const response = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
+        // C'est ici qu'on ajoute explicitement la variable "lang"
+        // pour que le serveur sache s'il doit répondre en FR ou EN !
+        body: JSON.stringify({ ...formData, lang }),
       });
 
       if (response.ok) {
@@ -68,7 +70,6 @@ export default function ContactPage() {
       setStatus("error");
     }
   };
-
   return (
     <div className="min-h-screen bg-[#0B0B0B] text-white font-sans flex flex-col justify-between p-6 md:p-12 relative overflow-hidden">
       {/* Halo lumineux vert derrière le logo (Style exact de l'image contact.png) */}
@@ -101,8 +102,9 @@ export default function ContactPage() {
                 src="/logo-green.png"
                 alt="Asikire & Co Logo Green"
                 fill
+                sizes="contains"
                 priority
-                className="object-contain filter drop-shadow-[0_0_30px_rgba(130,205,39,0.2)]"
+                className="object-contain filter drop-shadow-[0_0_30px_rgba(130,205,39,0.2)] border border-[#82CD27]/20 rounded-xl transition-transform group-hover:scale-105"
                 // En attendant d'avoir le fichier, un fallback visuel est géré ci-dessous
                 onError={(e) => {
                   // Optionnel : remplace par un bloc de texte stylisé si l'image est manquante au départ

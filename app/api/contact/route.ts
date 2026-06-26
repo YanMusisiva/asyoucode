@@ -1,9 +1,16 @@
+import { NextResponse } from "next/server";
 import nodemailer from "nodemailer";
 
 export async function POST(req: Request) {
-  const { name, email: rawEmail, message } = await req.json();
+  const {
+    name,
+    email: rawEmail,
+    phone,
+    message,
+    lang = "fr",
+  } = await req.json();
 
-  // Validation des champs
+  // 1. Validation des champs
   const errors: Record<string, string> = {};
   if (!name || typeof name !== "string" || name.trim().length < 2) {
     errors.name = "Le nom est requis (au moins 2 caractères).";
@@ -20,114 +27,108 @@ export async function POST(req: Request) {
     errors.message = "Le message doit contenir au moins 10 caractères.";
   }
   if (Object.keys(errors).length > 0) {
-    return new Response(JSON.stringify({ errors }), { status: 400 });
+    return NextResponse.json({ errors }, { status: 400 });
   }
 
-  // Création du transporteur nodemailer
+  // 2. Création du transporteur Nodemailer
+  // Remplacez la création du transporteur par celle-ci :
   const transporter = nodemailer.createTransport({
-    service: "gmail",
+    host: "smtp.gmail.com",
+    port: 587,
+    secure: false, // true pour le port 465, false pour le port 587
     auth: {
       user: process.env.SMTP_USER,
       pass: process.env.SMTP_PASS,
     },
+    tls: {
+      rejectUnauthorized: false, // Évite les blocages liés aux certificats locaux en développement
+    },
   });
 
-  // Email à l'administrateur du site
+  // 3. Email envoyé à l'administrateur (Toujours structuré de la même manière)
   try {
     await transporter.sendMail({
-      from: `"AsYouCode Contact" <${process.env.SMTP_USER}>`,
+      from: `"Asikire & Co Contact" <${process.env.SMTP_USER}>`,
       to: process.env.SMTP_USER,
-      subject: `Nouveau message de contact AsYouCode`,
-      text: `Vous avez reçu un nouveau message via le formulaire de contact AsCode :
-
-Nom : ${name}
-Email : ${email}
-
-Message :
-${message}
-`,
+      subject: `🔥 Nouveau Prospect [${lang.toUpperCase()}] - Asikire & Co`,
+      text: `Nouveau message reçu (${lang}) :\n\nNom : ${name}\nEmail : ${email}\nTéléphone : ${phone || "Non renseigné"}\n\nMessage :\n${message}`,
       html: `
-        <div style="font-family:sans-serif;font-size:1rem;color:#222;">
-          <h2 style="color:#111;">Nouveau message de contact AsYouCode</h2>
+        <div style="font-family:sans-serif;font-size:1rem;color:#111;max-width:600px;margin:auto;">
+          <h2 style="color:#82CD27;border-bottom:1px solid #eee;padding-bottom:10px;">Nouveau prospect Asikire & Co (${lang.toUpperCase()})</h2>
           <p><b>Nom :</b> ${name}</p>
           <p><b>Email :</b> ${email}</p>
+          <p><b>Téléphone :</b> ${phone || "Non renseigné"}</p>
           <p><b>Message :</b><br/>${message.replace(/\n/g, "<br/>")}</p>
         </div>
       `,
     });
-  } catch {
-    return new Response(
-      JSON.stringify({
-        error: "Erreur lors de l'envoi de l'email à l'administrateur.",
-      }),
-      { status: 500 }
+  } catch (error) {
+    return NextResponse.json(
+      { error: "Erreur lors de l'envoi de l'email à l'administrateur." },
+      { status: 500 },
     );
   }
 
-  // Email de confirmation à l'utilisateur
+  // 4. Configuration des contenus multilingues pour le client
+  const clientEmails = {
+    fr: {
+      subject: "Nous avons bien reçu votre demande – Asikire & Co 🚀",
+      text: `Bonjour ${name},\n\nMerci de nous avoir contactés !\n\nNous avons bien reçu vos objectifs concernant le développement de votre entreprise. Notre équipe analyse votre demande et reviendra vers vous sous 24 heures.\n\nPour rappel, voici comment Asikire & Co propulse votre activité :\n1️⃣ Business Consulting : Diagnostic et optimisation.\n2️⃣ Advertising : Campagnes d'acquisition ciblées.\n3️⃣ SaaS & Web Development : Solutions technologiques modernes.\n\nVotre message :\n"${message}"\n\nÀ très vite,\nL'équipe Asikire & Co`,
+      html: `
+        <div style="font-family:sans-serif;font-size:1rem;color:#222;max-width:600px;margin:auto;line-height:1.6;">
+          <h2>Merci pour votre message, ${name} 🚀</h2>
+          <p>Chez <b>Asikire & Co</b>, notre objectif est d'aider votre entreprise de services à se faire connaître et à convertir l'intérêt de vos prospects en revenus concrets.</p>
+          <div style="background:#f7fafc;padding:16px 20px;border-radius:8px;margin:24px 0;border-left:4px solid #82CD27;">
+            <b>Nos 3 piliers de croissance :</b>
+            <ul style="margin:12px 0;padding-left:20px;color:#444;">
+              <li><b>Business Consulting :</b> Maximiser l'efficacité de vos structures.</li>
+              <li><b>Advertising :</b> Capturer l'attention d'audiences qualifiées.</li>
+              <li><b>SaaS & Web Development :</b> Développer des solutions technologiques modernes.</li>
+            </ul>
+          </div>
+          <p>Un consultant prendra contact avec vous d'ici 24 heures.</p>
+        </div>`,
+    },
+    en: {
+      subject: "We have received your request – Asikire & Co 🚀",
+      text: `Hello ${name},\n\nThank you for reaching out to us!\n\nWe have successfully received your business growth goals. Our team is analyzing your request and will get back to you within 24 hours.\n\nAs a reminder, here is how Asikire & Co drives your business forward:\n1️⃣ Business Consulting: Diagnostics and structural optimization.\n2️⃣ Advertising: High-converting acquisition campaigns.\n3️⃣ SaaS & Web Development: High-performance and user-friendly digital tools.\n\nYour message:\n"${message}"\n\nSee you soon,\nThe Asikire & Co Team`,
+      html: `
+        <div style="font-family:sans-serif;font-size:1rem;color:#222;max-width:600px;margin:auto;line-height:1.6;">
+          <h2>Thank you for your message, ${name} 🚀</h2>
+          <p>At <b>Asikire & Co</b>, our goal is to help your service-based business get discovered and convert client acquisition into real revenue.</p>
+          <div style="background:#f7fafc;padding:16px 20px;border-radius:8px;margin:24px 0;border-left:4px solid #82CD27;">
+            <b>Our 3 Growth Pillars:</b>
+            <ul style="margin:12px 0;padding-left:20px;color:#444;">
+              <li><b>Business Consulting:</b> Maximize corporate structure and efficiency.</li>
+              <li><b>Advertising:</b> Target and capture high-intent audiences.</li>
+              <li><b>SaaS & Web Development:</b> Build modern, scalable custom digital solutions.</li>
+            </ul>
+          </div>
+          <p>An expert advisor will contact you within the next 24 hours.</p>
+        </div>`,
+    },
+  };
+
+  const currentEmail = lang === "en" ? clientEmails.en : clientEmails.fr;
+
+  // 5. Email de confirmation automatique envoyé au client (FR ou EN)
   try {
     await transporter.sendMail({
-      from: `"AsCode" <${process.env.SMTP_USER}>`,
+      from: `"Asikire & Co" <${process.env.SMTP_USER}>`,
       to: email,
-      subject: "Merci pour votre message – Bienvenue sur AsYouCode 🚀",
-      text: `Bonjour ${name},
-
-Merci de nous avoir contactés !
-
-Chez AsYouCode, nous croyons qu'apprendre à coder peut devenir simple et rapide, même si vous partez de zéro. Grâce aux outils d'intelligence artificielle comme GitHub Copilot, ChatGPT ou Cursor, vous pouvez créer de vrais projets en quelques mois au lieu de plusieurs années.
-
-Voici notre parcours étape par étape :
-1️⃣ Démarrage : Comprendre les bases du code sans stress.
-2️⃣ Pratique : Créer vos premiers mini-projets guidés.
-3️⃣ IA au service de votre apprentissage : Utiliser Copilot et ChatGPT pour coder plus vite.
-4️⃣ Niveau avancé : Construire des applications réelles et lancer vos projets.
-
-Avec AsYouCode, vous apprenez en créant, pas en restant bloqué sur la théorie.
-
-Nous avons bien reçu votre message :
-"${message}"
-
-Nous revenons vers vous très vite.
-
- Répondez directement à cet e-mail pour nous dire si vous souhaitez profiter de l’accompagnement gratuit, ou si vous préférez passer dès maintenant à la formation payante pour avancer plus vite. !
-
-À très bientôt pour commencer cette aventure !
-L'équipe AsYouCode
-`,
-
-      html: `
-      <div style="font-family:sans-serif;font-size:1rem;color:#222;max-width:600px;margin:auto;">
-        <h2 style="color:#111;">Merci pour votre message, ${name} 🚀</h2>
-        <p>Chez <b>AsYouCode</b>, nous croyons qu'apprendre à coder peut être simple, rapide et concret, même si vous débutez.</p>
-        <p>Grâce aux outils d'IA comme <b>GitHub Copilot</b>, <b>ChatGPT</b> ou <b>Cursor</b>, vous pouvez créer de vrais projets en quelques mois et progresser plus vite que jamais.</p>
-        
-        <div style="background:#f7fafc;padding:16px 20px;border-radius:8px;margin:24px 0;">
-          <b>Voici notre parcours étape par étape :</b>
-          <ul style="margin:12px 0;padding-left:20px;">
-            <li><b>1️⃣ Démarrage :</b> Comprendre les bases sans stress.</li>
-            <li><b>2️⃣ Pratique :</b> Créer vos premiers mini-projets.</li>
-            <li><b>3️⃣ IA au service de votre apprentissage :</b> Utiliser Copilot, ChatGPT, Cursor pour coder plus vite.</li>
-            <li><b>4️⃣ Niveau avancé :</b> Construire de vraies applications.</li>
-          </ul>
-        </div>
-
-        <p>Votre message a bien été reçu :</p>
-        <div style="background:#f1f5f9;padding:12px 16px;border-radius:6px;margin:16px 0;color:#444;">
-          "${message.replace(/\n/g, "<br/>")}"
-        </div>
-
-        <p style="margin-top:24px;">
-  Répondez directement à cet e-mail pour nous dire si vous souhaitez profiter de l’accompagnement gratuit, ou si vous préférez passer dès maintenant à la formation complète pour avancer plus vite.<br>
-  Nous reviendrons vers vous très vite.<br>
-  À très bientôt pour commencer cette aventure !<br>
-  L’équipe AsYouCode
-</p>
-
-      </div>
-    `,
+      subject: currentEmail.subject,
+      text: currentEmail.text,
+      html: currentEmail.html,
     });
-  } catch {
-    // On ne bloque pas la réponse si l'email utilisateur échoue
+  } catch (error) {
+    // Échec silencieux
+    console.error("Détail de l'erreur Nodemailer :", error);
+
+    return NextResponse.json(
+      { error: "Erreur lors de l'envoi de l'email à l'administrateur." },
+      { status: 500 },
+    );
   }
-  return new Response(JSON.stringify({ success: true }), { status: 200 });
+
+  return NextResponse.json({ success: true }, { status: 200 });
 }
