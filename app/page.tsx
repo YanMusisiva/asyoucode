@@ -458,7 +458,7 @@ export default function AsikireLandingPage() {
                 initial={{ y: 20, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
                 transition={{ duration: 0.8 }}
-                className={`w-40 h-40 sm:w-48 sm:h-48 md:w-64 md:h-64 bg-[url('/graph-3d.png')] bg-contain bg-no-repeat bg-center transition-all
+                className={`w-64 h-64 sm:w-72 sm:h-72 md:w-80 md:h-80 bg-[url('/graph-3d.png')] bg-contain bg-no-repeat bg-center transition-all
           ${
             theme === "dark"
               ? "drop-shadow-[0_0_50px_rgba(130,205,39,0.3)] mix-blend-screen"
